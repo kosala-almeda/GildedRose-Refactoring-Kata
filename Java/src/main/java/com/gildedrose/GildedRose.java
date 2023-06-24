@@ -7,6 +7,9 @@ class GildedRose {
     // orginal set of items
     Item[] items;
 
+    // The factory to wrap the items
+    InventoryFactory factory = new InventoryFactory();
+
     // wrapped items
     InventoryItem[] inventoryItems;
 
@@ -27,7 +30,7 @@ class GildedRose {
         // Wrap all items using the inventory factory to attach the strategies
         InventoryItem[] inventoryItems = new InventoryItem[items.length];
         for (int i = 0; i < items.length; i++) {
-            inventoryItems[i] = InventoryFactory.wrapItem(items[i]);
+            inventoryItems[i] = factory.wrapItem(items[i]);
         }
         return inventoryItems;
     }

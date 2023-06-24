@@ -1,9 +1,9 @@
-package com.gildedrose.behavior.strategy.sellin;
+package com.gildedrose.behavior.sellin;
 
 import com.gildedrose.Item;
 
 /**
- * SellInUpdateStrategy is an interface for updating the sellIn value of an Item
+ * SellInUpdateStrategy is an interface for updating the sellIn days of an Item
  */
 public interface SellInUpdateStrategy {
 
@@ -11,6 +11,7 @@ public interface SellInUpdateStrategy {
 
     /**
      * Update the sellIn value of an item
+     * 
      * @param item the item to update
      */
     void updateSellIn(Item item);

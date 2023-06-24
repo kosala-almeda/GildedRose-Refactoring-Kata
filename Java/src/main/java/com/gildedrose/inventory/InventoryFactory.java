@@ -1,15 +1,18 @@
 package com.gildedrose.inventory;
 
 import java.util.List;
+import java.util.Map;
+
 import com.gildedrose.Item;
-import com.gildedrose.behavior.strategy.quality.DecreasingQualityStrategy;
-import com.gildedrose.behavior.strategy.quality.FixedQualityStrategy;
-import com.gildedrose.behavior.strategy.quality.ThresholdedCompositeStrategy;
-import com.gildedrose.behavior.strategy.sellin.LegenderySellinStrategy;
-import com.gildedrose.behavior.strategy.sellin.StandardSellinStrategy;
-import com.gildedrose.behavior.strategy.quality.IncreasingQualityStrategy;
-import com.gildedrose.behavior.strategy.quality.NonChangingQualityStrategy;
-import com.gildedrose.behavior.strategy.quality.QualityUpdateStrategy;
+import com.gildedrose.behavior.quality.DecreasingQualityStrategy;
+import com.gildedrose.behavior.quality.FixedQualityStrategy;
+import com.gildedrose.behavior.quality.IncreasingQualityStrategy;
+import com.gildedrose.behavior.quality.NonChangingQualityStrategy;
+import com.gildedrose.behavior.quality.QualityUpdateStrategy;
+import com.gildedrose.behavior.quality.ThresholdedCompositeStrategy;
+import com.gildedrose.behavior.sellin.LegendarySellinStrategy;
+import com.gildedrose.behavior.sellin.SellInUpdateStrategy;
+import com.gildedrose.behavior.sellin.StandardSellinStrategy;
 
 /**
  * InventoryFactory is a factory class for wrapping Items and strategies into
@@ -17,77 +20,61 @@ import com.gildedrose.behavior.strategy.quality.QualityUpdateStrategy;
  */
 public class InventoryFactory {
 
-    // Items types (names start with with these)
-    public static final String AGED_BRIE = "Aged Brie";
-    public static final String SULFURAS = "Sulfuras";
-    public static final String BACKSTAGE_PASSES = "Backstage passes";
-    public static final String CONJURED = "Conjured";
-
-    // Quality strategy instances (singleton style)
-    private static QualityUpdateStrategy standardItemStrategy;
-    private static QualityUpdateStrategy agedBrieStrategy;
-    private static QualityUpdateStrategy sulfurasStrategy;
-    private static QualityUpdateStrategy backstagePassesStrategy;
-    private static QualityUpdateStrategy conjuredStrategy;
+    // Quality strategy instances (one for each type)
+    private Map<ItemType, QualityUpdateStrategy> qualityStrategies = Map.of(
+            ItemType.AGED_BRIE, new IncreasingQualityStrategy(), // Aged Brie increases in quality one per day
+            ItemType.SULFURAS, new NonChangingQualityStrategy(), // Sulfuras never changes quality
+            ItemType.BACKSTAGE_PASSES, new ThresholdedCompositeStrategy(List.of( // Backstage passes quality chane
+                    // Quality drops to 0 after concert
+                    new ThresholdedCompositeStrategy.ThresholdStrategy(0, new FixedQualityStrategy(0)),
+                    // Quality increases by 3 when sellIn is 5 or less
+                    new ThresholdedCompositeStrategy.ThresholdStrategy(5, new IncreasingQualityStrategy()),
+                    // Quality increases by 2 when sellIn is 10 or less
+                    new ThresholdedCompositeStrategy.ThresholdStrategy(10, new IncreasingQualityStrategy()),
+                    // Quality increases by 1 when sellIn is more than 10
+                    new ThresholdedCompositeStrategy.ThresholdStrategy(Integer.MAX_VALUE,
+                            new IncreasingQualityStrategy()))),
+            ItemType.CONJURED, new DecreasingQualityStrategy(2), // Conjured items decrease in quality twice as fast
+            ItemType.NORMAL, new DecreasingQualityStrategy()); // Normal items decrease in quality one per day
 
     /**
      * Creates an InventoryItem based on the item
      * with the correct strategies (the factory method)
+     * 
      * @param item the item to wrap
      */
-    public static InventoryItem wrapItem(Item item) {
+    public InventoryItem wrapItem(Item item) {
 
-        if (item.name.startsWith(AGED_BRIE)) {
-            return wrapAgedBrieItem(item);
-        } else if (item.name.startsWith(SULFURAS)) {
-            return wrapSulfurasItem(item);
-        } else if (item.name.startsWith(BACKSTAGE_PASSES)) {
-            return wrapBackstagePassesItem(item);
-        } else if (item.name.startsWith(CONJURED)) {
-            return wrapConjuredItem(item);
+        // Get strategy based on item type
+        ItemType type = ItemType.fromName(item.name);
+        if (type.isSpecial()) {
+            return wrapSpecialItem(item, type);
         } else {
             return wrapStandardItem(item);
         }
+
     }
 
-    private static InventoryItem wrapStandardItem(Item item) {
-        if (standardItemStrategy == null) {
-            standardItemStrategy = new DecreasingQualityStrategy();
-        }
-        return new InventoryItem(item, StandardSellinStrategy.getInstance(), standardItemStrategy);
+    private InventoryItem wrapStandardItem(Item item) {
+        // A normal item (quality decreases by 1, sellIn decreases by 1)
+        SellInUpdateStrategy sellinStrategy = StandardSellinStrategy.getInstance();
+        QualityUpdateStrategy qualityStrategy = qualityStrategies.get(ItemType.NORMAL);
+
+        return new InventoryItem(item, sellinStrategy, qualityStrategy);
     }
 
-    private static InventoryItem wrapAgedBrieItem(Item item) {
-        if (agedBrieStrategy == null) {
-            agedBrieStrategy = new IncreasingQualityStrategy();
+    private InventoryItem wrapSpecialItem(Item item, ItemType type) {
+        // A special item
+        // sellin strategy depends on type being legendary or not
+        SellInUpdateStrategy sellinStrategy;
+        if (type.isLegendary()) {
+            sellinStrategy = LegendarySellinStrategy.getInstance();
+        } else {
+            sellinStrategy = StandardSellinStrategy.getInstance();
         }
-        return new InventoryItem(item, StandardSellinStrategy.getInstance(), agedBrieStrategy);
-    }
+        // quality strategy depends on type
+        QualityUpdateStrategy qualityStrategy = qualityStrategies.get(type);
 
-    private static InventoryItem wrapSulfurasItem(Item item) {
-        if (sulfurasStrategy == null) {
-            sulfurasStrategy = new NonChangingQualityStrategy();
-        }
-        return new InventoryItem(item, LegenderySellinStrategy.getInstance(), sulfurasStrategy);
-    }
-
-    private static InventoryItem wrapBackstagePassesItem(Item item) {
-        if (backstagePassesStrategy == null) {
-            List<ThresholdedCompositeStrategy.ThresholdStrategy> strategies = List.of(
-                    new ThresholdedCompositeStrategy.ThresholdStrategy(0, new FixedQualityStrategy(0)),
-                    new ThresholdedCompositeStrategy.ThresholdStrategy(5, new IncreasingQualityStrategy(3)),
-                    new ThresholdedCompositeStrategy.ThresholdStrategy(10, new IncreasingQualityStrategy(2)),
-                    new ThresholdedCompositeStrategy.ThresholdStrategy(Integer.MAX_VALUE,
-                            new IncreasingQualityStrategy()));
-            backstagePassesStrategy = new ThresholdedCompositeStrategy(strategies);
-        }
-        return new InventoryItem(item, StandardSellinStrategy.getInstance(), backstagePassesStrategy);
-    }
-
-    private static InventoryItem wrapConjuredItem(Item item) {
-        if (conjuredStrategy == null) {
-            conjuredStrategy = new DecreasingQualityStrategy(2);
-        }
-        return new InventoryItem(item, StandardSellinStrategy.getInstance(), conjuredStrategy);
+        return new InventoryItem(item, sellinStrategy, qualityStrategy);
     }
 }

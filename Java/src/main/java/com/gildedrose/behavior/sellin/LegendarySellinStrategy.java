@@ -1,4 +1,4 @@
-package com.gildedrose.behavior.strategy.sellin;
+package com.gildedrose.behavior.sellin;
 
 import com.gildedrose.Item;
 
@@ -6,16 +6,16 @@ import com.gildedrose.Item;
  * LegenderySellinStrategy is a singleton class
  * This is the behvior/strategy for updating the sellIn value of a legendary item
  */
-public class LegenderySellinStrategy implements SellInUpdateStrategy {
+public class LegendarySellinStrategy implements SellInUpdateStrategy {
 
-    private static LegenderySellinStrategy instance;
+    private static LegendarySellinStrategy instance;
 
-    private LegenderySellinStrategy() {
+    private LegendarySellinStrategy() {
     }
 
-    public static LegenderySellinStrategy getInstance() {
+    public static LegendarySellinStrategy getInstance() {
         if (instance == null) {
-            instance = new LegenderySellinStrategy();
+            instance = new LegendarySellinStrategy();
         }
         return instance;
     }

@@ -1,9 +1,9 @@
-package com.gildedrose.behavior.strategy.quality;
+package com.gildedrose.behavior.quality;
 
 import com.gildedrose.Item;
 
 /**
- * QualityUpdateStrategy is an interface for updating the quality value of an Item
+ * QualityUpdateStrategy is an interface for updating the quality of an Item
  */
 public interface QualityUpdateStrategy {
 

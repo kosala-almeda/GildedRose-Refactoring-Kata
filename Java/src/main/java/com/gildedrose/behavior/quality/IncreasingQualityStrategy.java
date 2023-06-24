@@ -1,4 +1,4 @@
-package com.gildedrose.behavior.strategy.quality;
+package com.gildedrose.behavior.quality;
 
 import com.gildedrose.Item;
 

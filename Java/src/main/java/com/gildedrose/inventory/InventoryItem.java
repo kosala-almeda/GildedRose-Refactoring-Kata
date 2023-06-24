@@ -1,8 +1,8 @@
 package com.gildedrose.inventory;
 
 import com.gildedrose.Item;
-import com.gildedrose.behavior.strategy.quality.QualityUpdateStrategy;
-import com.gildedrose.behavior.strategy.sellin.SellInUpdateStrategy;
+import com.gildedrose.behavior.quality.QualityUpdateStrategy;
+import com.gildedrose.behavior.sellin.SellInUpdateStrategy;
 
 /**
  * InventoryItem is a wrapper for Item that contains the strategies for updating
@@ -32,7 +32,7 @@ public class InventoryItem {
     }
 
     /**
-     * Update the item
+     * Update the item (at the end of the day)
      */
     public void update() {
         // Update quality

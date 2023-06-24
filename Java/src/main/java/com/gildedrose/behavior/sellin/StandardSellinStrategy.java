@@ -1,4 +1,4 @@
-package com.gildedrose.behavior.strategy.sellin;
+package com.gildedrose.behavior.sellin;
 
 import com.gildedrose.Item;
 

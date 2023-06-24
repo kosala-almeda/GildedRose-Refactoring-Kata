@@ -1,10 +1,8 @@
 package com.gildedrose.inventory;
 
-import java.util.Set;
-
 import com.gildedrose.Item;
 import com.gildedrose.behavior.strategy.quality.QualityUpdateStrategy;
-import com.gildedrose.inventory.sellin.SellInUpdateStrategy;
+import com.gildedrose.behavior.strategy.sellin.SellInUpdateStrategy;
 
 /**
  * InventoryItem is a wrapper for Item that contains the strategies for updating
@@ -13,29 +11,46 @@ import com.gildedrose.inventory.sellin.SellInUpdateStrategy;
  */
 public class InventoryItem {
 
+    /**
+     * item is the original item from the legacy code
+     */
     private Item item;
+    /**
+     * sellInUpdateStrategy is the strategy for updating the sellIn value of an item
+     */
     private SellInUpdateStrategy sellInUpdateStrategy;
+    /**
+     * qualityUpdateStrategy is the strategy for updating the quality value of an item
+     */
     private QualityUpdateStrategy qualityUpdateStrategy;
 
-    public InventoryItem(Item item, SellInUpdateStrategy sellInUpdateStrategy, QualityUpdateStrategy qualityUpdateStrategy) {
+    public InventoryItem(Item item, SellInUpdateStrategy sellInUpdateStrategy,
+            QualityUpdateStrategy qualityUpdateStrategy) {
         this.item = item;
         this.sellInUpdateStrategy = sellInUpdateStrategy;
         this.qualityUpdateStrategy = qualityUpdateStrategy;
     }
 
+    /**
+     * Update the item
+     */
     public void update() {
         // Update quality
         qualityUpdateStrategy.updateQuality(item);
         // Update sellIn
-       sellInUpdateStrategy.updateSellIn(item);
+        sellInUpdateStrategy.updateSellIn(item);
     }
 
     public Item getItem() {
         return item;
     }
 
+    public SellInUpdateStrategy getSellInUpdateStrategy() {
+        return sellInUpdateStrategy;
+    }
+
     public QualityUpdateStrategy getQualityUpdateStrategy() {
         return qualityUpdateStrategy;
     }
-    
+
 }

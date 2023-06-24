@@ -1,7 +1,11 @@
-package com.gildedrose.inventory.sellin;
+package com.gildedrose.behavior.strategy.sellin;
 
 import com.gildedrose.Item;
 
+/**
+ * StandardSellinStrategy is a singleton class
+ * This is the behvior/strategy for updating the sellIn value of a standard item
+ */
 public class StandardSellinStrategy implements SellInUpdateStrategy {
 
     private static StandardSellinStrategy instance;
@@ -19,7 +23,7 @@ public class StandardSellinStrategy implements SellInUpdateStrategy {
     @Override
     public void updateSellIn(Item item) {
         if (item.sellIn > MIN_SELLIN) {
-            item.sellIn--;
+            item.sellIn = item.sellIn - 1;
         }
     }
     

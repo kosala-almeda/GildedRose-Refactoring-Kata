@@ -2,8 +2,14 @@ package com.gildedrose.behavior.strategy.quality;
 
 import com.gildedrose.Item;
 
+/**
+ * DecreasingQualityStrategy has the behavior of decreasing the quality value of an item
+ */
 public class DecreasingQualityStrategy implements QualityUpdateStrategy {
 
+    /**
+     * The step to decrease the quality (default is 1)
+     */
     private int step;
 
     public DecreasingQualityStrategy() {
@@ -22,6 +28,10 @@ public class DecreasingQualityStrategy implements QualityUpdateStrategy {
         if (item.quality < MIN_QUALITY) {
             item.quality = MIN_QUALITY;
         }
+    }
+
+    public int getStep() {
+        return step;
     }
 
 }

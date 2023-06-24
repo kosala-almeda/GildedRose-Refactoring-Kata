@@ -2,8 +2,14 @@ package com.gildedrose.behavior.strategy.quality;
 
 import com.gildedrose.Item;
 
+/**
+ * IncreasingQualityStrategy has the behavior of increasing the quality value of an item
+ */
 public class IncreasingQualityStrategy implements QualityUpdateStrategy {
     
+    /**
+     * The step to increase the quality (default is 1)
+     */
     private int step;
 
     public IncreasingQualityStrategy() {
@@ -22,6 +28,10 @@ public class IncreasingQualityStrategy implements QualityUpdateStrategy {
         if (item.quality > MAX_QUALITY) {
             item.quality = MAX_QUALITY;
         }
+    }
+
+    public int getStep() {
+        return step;
     }
     
 }

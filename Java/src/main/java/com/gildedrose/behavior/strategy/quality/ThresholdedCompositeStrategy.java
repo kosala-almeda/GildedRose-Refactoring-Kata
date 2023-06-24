@@ -4,8 +4,16 @@ import java.util.List;
 
 import com.gildedrose.Item;
 
+/**
+ * ThresholdedCompositeStrategy has the behaviors of advanced quality update
+ * strategies that are different depending on the sellIn value of the item
+ */
 public class ThresholdedCompositeStrategy implements QualityUpdateStrategy {
 
+    /**
+     * ThresholdStrategy is a helper class for ThresholdedCompositeStrategy
+     * that holds a threshold value and a quality update strategy
+     */
     public static class ThresholdStrategy {
         private int threshold;
         private QualityUpdateStrategy strategy;
@@ -16,6 +24,9 @@ public class ThresholdedCompositeStrategy implements QualityUpdateStrategy {
         }
     }
 
+    /**
+     * The ordered list of thresholds and strategies
+     */
     private List<ThresholdStrategy> strategies;
 
     public ThresholdedCompositeStrategy(List<ThresholdStrategy> strategies) {

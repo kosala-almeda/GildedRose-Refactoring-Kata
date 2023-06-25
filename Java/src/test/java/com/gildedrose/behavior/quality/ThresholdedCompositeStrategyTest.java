@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import com.gildedrose.Item;
 
+/**
+ * Unit tests for {@link ThresholdedCompositeStrategy}.
+ */
 public class ThresholdedCompositeStrategyTest {
 
     static final int FIXED_QUALITY_1 = 44;

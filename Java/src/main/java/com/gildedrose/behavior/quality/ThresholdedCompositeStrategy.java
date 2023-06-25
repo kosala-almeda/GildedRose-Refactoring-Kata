@@ -33,6 +33,14 @@ public class ThresholdedCompositeStrategy implements QualityUpdateStrategy {
             this.threshold = threshold;
             this.strategy = strategy;
         }
+
+        public int getThreshold() {
+            return this.threshold;
+        }
+
+        public QualityUpdateStrategy getStrategy() {
+            return this.strategy;
+        }
     }
 
     /**

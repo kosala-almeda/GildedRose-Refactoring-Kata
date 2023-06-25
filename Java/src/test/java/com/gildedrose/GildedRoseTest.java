@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Feature test for the Gilded Rose kata.
- *  - Regression
+ *  - Regression for {@link GildedRose}.
  */
 class GildedRoseTest {
 

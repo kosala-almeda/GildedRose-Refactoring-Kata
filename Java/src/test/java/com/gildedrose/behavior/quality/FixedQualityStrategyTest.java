@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import com.gildedrose.Item;
 
+/**
+ * Unit tests for {@link FixedQualityStrategy}.
+ */
 public class FixedQualityStrategyTest {
 
     @Test

@@ -7,7 +7,14 @@ import com.gildedrose.Item;
  */
 public interface QualityUpdateStrategy {
 
+    /**
+     * The maximum quality value for an item during updates
+     */
     static final int MAX_QUALITY = 50;
+
+    /**
+     * The minimum quality value for an item during updates
+     */
     static final int MIN_QUALITY = 0;
 
     /**

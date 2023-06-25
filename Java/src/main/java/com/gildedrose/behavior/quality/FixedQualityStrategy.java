@@ -12,15 +12,26 @@ public class FixedQualityStrategy implements QualityUpdateStrategy {
      */
     private int quality;
 
+    /**
+     * Constructor with quality
+     * @param quality the quality value to set
+     */
     public FixedQualityStrategy(int quality) {
         this.quality = quality;
     }
     
     @Override
+    /**
+     * Set the quality value of an item to the predefined value
+     * @param item the item to update
+     */
     public void updateQuality(Item item) {
         item.quality = quality;
     }
 
+    /**
+     * @return the quality value to set
+     */
     public int getQuality() {
         return quality;
     }

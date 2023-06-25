@@ -12,15 +12,31 @@ public class IncreasingQualityStrategy implements QualityUpdateStrategy {
      */
     private int step;
 
+    /**
+     * Default constructor
+     * The step is 1
+     */
     public IncreasingQualityStrategy() {
         this.step = 1;
     }
 
+    /**
+     * Constructor with step
+     * @param step the step size to increase the quality
+     */
     public IncreasingQualityStrategy(int step) {
+        if (step <= 0) {
+            throw new IllegalArgumentException("The step must be greater than 0");
+        }
         this.step = step;
     }
 
     @Override
+    /**
+     * Increase the quality value of an item by the step size
+     * If the quality value is greater than the maximum quality, set it to the maximum quality
+     * @param item the item to update
+     */
     public void updateQuality(Item item) {
         if (item.quality < MAX_QUALITY) {
             item.quality = item.quality + step;
@@ -30,6 +46,9 @@ public class IncreasingQualityStrategy implements QualityUpdateStrategy {
         }
     }
 
+    /**
+     * @return the step size to increase the quality
+     */
     public int getStep() {
         return step;
     }

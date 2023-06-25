@@ -8,11 +8,20 @@ import com.gildedrose.Item;
  */
 public class StandardSellinStrategy implements SellInUpdateStrategy {
 
+    /**
+     * The singleton instance
+     */
     private static StandardSellinStrategy instance;
 
+    /**
+     * Private constructor for singleton
+     */
     private StandardSellinStrategy() {
     }
 
+    /**
+     * @return the StandardSellinStrategy instance
+     */
     public static StandardSellinStrategy getInstance() {
         if (instance == null) {
             instance = new StandardSellinStrategy();
@@ -21,6 +30,9 @@ public class StandardSellinStrategy implements SellInUpdateStrategy {
     }
 
     @Override
+    /**
+     * Standard items decrease sellIn value by 1
+     */
     public void updateSellIn(Item item) {
         if (item.sellIn > MIN_SELLIN) {
             item.sellIn = item.sellIn - 1;

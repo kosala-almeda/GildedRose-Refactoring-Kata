@@ -41,8 +41,13 @@ public enum ItemType {
     /** Conjured items: decrease in quality twice as fast */
     CONJURED(Pattern.compile("^Conjured.*"), new DecreasingQualityStrategy(2));
 
+    /** The name pattern. (regex) */
     private Pattern namePattern;
+
+    /** The legendary flag. */
     private boolean legendary;
+
+    /** The quality strategy. */
     private QualityUpdateStrategy qualityStrategy;
 
     private ItemType(Pattern namePattern, QualityUpdateStrategy qualityStrategy) {
@@ -55,22 +60,42 @@ public enum ItemType {
         this.legendary = legendary;
     }
 
+    /**
+     * @return true, if is special (not normal) item type.
+     */
     public boolean isSpecial() {
         return !NORMAL.equals(this);
     }
 
+    /**
+     * @return true, if is legendary item type.
+     */
     public boolean isLegendary() {
         return legendary;
     }
 
+    /**
+     * @return the sellIn strategy for the type
+     */
     public SellInUpdateStrategy getSellInStrategy() {
         return legendary ? LegendarySellinStrategy.getInstance() : StandardSellinStrategy.getInstance();
     }
 
+    /**
+     * @return the quality strategy for the type
+     */
     public QualityUpdateStrategy getQualityStrategy() {
         return qualityStrategy;
     }
 
+    /**
+     * Gets the item type from name.
+     * - If the name matches the regex of a special item type, return that type
+     * - Otherwise, return NORMAL
+     * 
+     * @param name the name
+     * @return the item type
+     */
     public static ItemType fromName(String name) {
         for (ItemType iType : ItemType.values()) {
             // match regex

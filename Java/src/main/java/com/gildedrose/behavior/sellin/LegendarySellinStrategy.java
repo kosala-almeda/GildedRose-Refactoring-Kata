@@ -8,11 +8,20 @@ import com.gildedrose.Item;
  */
 public class LegendarySellinStrategy implements SellInUpdateStrategy {
 
+    /**
+     * The singleton instance
+     */
     private static LegendarySellinStrategy instance;
 
+    /**
+     * Private constructor for singleton
+     */
     private LegendarySellinStrategy() {
     }
 
+    /**
+     * @return the LegendarySellinStrategy instance
+     */
     public static LegendarySellinStrategy getInstance() {
         if (instance == null) {
             instance = new LegendarySellinStrategy();
@@ -21,6 +30,9 @@ public class LegendarySellinStrategy implements SellInUpdateStrategy {
     }
 
     @Override
+    /**
+     * Legendary items do not change sellIn value
+     */
     public void updateSellIn(Item item) {
         // Do nothing
     }

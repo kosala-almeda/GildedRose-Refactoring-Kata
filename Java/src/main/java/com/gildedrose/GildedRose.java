@@ -15,6 +15,10 @@ class GildedRose {
         this.inventoryItems = wrapItems(items);
     }
 
+    /**
+     * Update the quality of the items
+     *  - supposed to be called at the end of each day
+     */
     public void updateQuality() {
         // Use wrapped items to update using the strategies
         for (int i = 0; i < inventoryItems.length; i++) {

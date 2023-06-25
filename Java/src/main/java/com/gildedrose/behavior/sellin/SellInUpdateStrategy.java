@@ -7,6 +7,9 @@ import com.gildedrose.Item;
  */
 public interface SellInUpdateStrategy {
 
+    /**
+     * Minimum possible sellIn value during updates
+     */
     public static final int MIN_SELLIN = 0;
 
     /**

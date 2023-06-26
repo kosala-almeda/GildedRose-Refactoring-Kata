@@ -3,6 +3,7 @@ package com.gildedrose.behavior.quality;
 import java.util.List;
 
 import com.gildedrose.Item;
+import com.gildedrose.util.validators.ParameterValidator;
 
 /**
  * ThresholdedCompositeStrategy has the behaviors of advanced quality update
@@ -59,7 +60,9 @@ public class ThresholdedCompositeStrategy implements QualityUpdateStrategy {
      * @param strategies the ordered list of thresholds and strategies
      */
     public ThresholdedCompositeStrategy(List<ThresholdStrategy> strategies) {
-        checkValid(strategies); // Check the validity and throw an exception if invalid
+        ParameterValidator.validateNotEmptyNoNullElements(strategies, null);
+        // Check the validity of the thresholds
+        checkThresholds(strategies); // TODO: Have its own validator
         this.strategies = strategies;
     }
 
@@ -86,16 +89,10 @@ public class ThresholdedCompositeStrategy implements QualityUpdateStrategy {
         return this.strategies;
     }
 
-    private void checkValid(List<ThresholdStrategy> strategies) {
-        if (strategies == null || strategies.size() == 0) {
-            throw new IllegalArgumentException("The strategies must not be null or empty");
-        }
-        // Check the validity of the thresholds and strategies
+    private void checkThresholds(List<ThresholdStrategy> strategies) {
+        // Check if the thresholds are in ascending order
         int previousThreshold = Integer.MIN_VALUE;
         for (ThresholdStrategy thresholdStrategy : strategies) {
-            if (thresholdStrategy == null) {
-                throw new IllegalArgumentException("The strategy must not be null");
-            }
             // Check the validity of the threshold
             if (thresholdStrategy.threshold <= previousThreshold) {
                 throw new IllegalArgumentException("The thresholds must be in ascending order");

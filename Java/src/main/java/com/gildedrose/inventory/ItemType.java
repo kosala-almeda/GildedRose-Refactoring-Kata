@@ -24,10 +24,15 @@ public enum ItemType {
     /** Aged brie items: quality increases by 1 per day */
     AGED_BRIE(Pattern.compile("^Aged Brie.*"), new IncreasingQualityStrategy()),
 
-    /** Sulfauras legendary items: never change quality */
+    /** Sulfuras legendary items: never change quality */
     SULFURAS(Pattern.compile("^Sulfuras.*"), new NonChangingQualityStrategy(), true),
 
-    /** Backstage passes items: quality change is dynamic */
+    /** Backstage passes items:
+     *  - quality increases by 1 per day when sellIn is more than 10
+     *  - quality increases by 2 per day when sellIn is 10 or less
+     *  - quality increases by 3 per day when sellIn is 5 or less
+     *  - quality drops to 0 after concert
+     */
     BACKSTAGE_PASSES(Pattern.compile("^Backstage passes.*"), new ThresholdedCompositeStrategy(List.of(
             // Quality drops to 0 after concert
             new ThresholdedCompositeStrategy.ThresholdStrategy(0, new FixedQualityStrategy(0)),

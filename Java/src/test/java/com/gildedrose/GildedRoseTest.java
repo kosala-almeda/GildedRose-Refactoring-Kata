@@ -32,31 +32,49 @@ class GildedRoseTest {
         app.updateQuality(); // Day 2
 
         // should decrease sellin by 2 and quality by 2 for normal item
-        assertEquals("+5 Dexterity Vest, 8, 18", items[0].toString());
+        assertEquals("+5 Dexterity Vest", items[0].name);
+        assertEquals(8, items[0].sellIn);
+        assertEquals(18, items[0].quality);
 
         // should decrease sellin by 2 and increase quality by 2 for Aged Brie
-        assertEquals("Aged Brie, 0, 2", items[1].toString());
+        assertEquals("Aged Brie", items[1].name);
+        assertEquals(0, items[1].sellIn);
+        assertEquals(2, items[1].quality);
 
         // should decrease sellin by 2 and quality by 2 for normal item
-        assertEquals("Elixir of the Mongoose, 3, 5", items[2].toString());
+        assertEquals("Elixir of the Mongoose", items[2].name);
+        assertEquals(3, items[2].sellIn);
+        assertEquals(5, items[2].quality);
 
         // should not change sellin and quality for Sulfuras (legendary item)
-        assertEquals("Sulfuras, Hand of Ragnaros, 0, 80", items[3].toString());
+        assertEquals("Sulfuras, Hand of Ragnaros", items[3].name);
+        assertEquals(0, items[3].sellIn);
+        assertEquals(80, items[3].quality);
 
         // should not change sellin and quality for Sulfuras (legendary item)
-        assertEquals("Sulfuras, Hand of Ragnaros, -1, 80", items[4].toString());
+        assertEquals("Sulfuras, Hand of Ragnaros", items[4].name);
+        assertEquals(-1, items[4].sellIn);
+        assertEquals(80, items[4].quality);
 
         // should decrease sellin by 2 and increase quality by 1+1 for Backstage passes
-        assertEquals("Backstage passes to a TAFKAL80ETC concert, 13, 22", items[5].toString());
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", items[5].name);
+        assertEquals(13, items[5].sellIn);
+        assertEquals(22, items[5].quality);
 
         // should decrease sellin by 2 and increase quality by 1+0 for Backstage passes
-        assertEquals("Backstage passes to a TAFKAL80ETC concert, 8, 50", items[6].toString());
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", items[6].name);
+        assertEquals(8, items[6].sellIn);
+        assertEquals(50, items[6].quality);
 
         // should decrease sellin by 2 and increase quality by 1+0 for Backstage passes
-        assertEquals("Backstage passes to a TAFKAL80ETC concert, 3, 50", items[7].toString());
+        assertEquals("Backstage passes to a TAFKAL80ETC concert", items[7].name);
+        assertEquals(3, items[7].sellIn);
+        assertEquals(50, items[7].quality);
 
         // should decrease sellin by 2 and quality by 4 for Conjured
-        assertEquals("Conjured Mana Cake, 1, 2", items[8].toString());
+        assertEquals("Conjured Mana Cake", items[8].name);
+        assertEquals(1, items[8].sellIn);
+        assertEquals(2, items[8].quality);
         
     }
 

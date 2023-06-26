@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 import com.gildedrose.inventory.InventoryItem;
+import com.gildedrose.util.validators.ParameterValidator;
 
 class GildedRose {
     // orginal set of items
@@ -10,6 +11,7 @@ class GildedRose {
     InventoryItem[] inventoryItems;
 
     public GildedRose(Item[] items) {
+        ParameterValidator.validateNotEmptyNoNullElements(items, "items");
         this.items = items;
         // Make sure to wrap the Items as InventoryItems
         this.inventoryItems = wrapItems(items);

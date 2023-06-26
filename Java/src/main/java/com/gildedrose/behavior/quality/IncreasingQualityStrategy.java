@@ -1,6 +1,7 @@
 package com.gildedrose.behavior.quality;
 
 import com.gildedrose.Item;
+import com.gildedrose.util.validators.ParameterValidator;
 
 /**
  * IncreasingQualityStrategy has the behavior of increasing the quality value of an item
@@ -25,9 +26,7 @@ public class IncreasingQualityStrategy implements QualityUpdateStrategy {
      * @param step the step size to increase the quality
      */
     public IncreasingQualityStrategy(int step) {
-        if (step <= 0) {
-            throw new IllegalArgumentException("The step must be greater than 0");
-        }
+        ParameterValidator.validatePositive(step, "step");
         this.step = step;
     }
 
